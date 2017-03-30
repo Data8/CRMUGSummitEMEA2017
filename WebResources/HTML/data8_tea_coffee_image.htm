@@ -1,0 +1,51 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        * {
+            border: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <img src="data8_coffee_image" id="coffee" style="position: absolute" /><img src="data8_tea_image" id="tea" style="position: absolute; left: 150px" />
+
+    <script type="text/javascript">
+
+        Xrm = window.parent.Xrm;
+
+        syncImages = function () {
+            var drinksCoffee = Xrm.Page.getAttribute('data8_drinkscoffee').getValue();
+            var drinksTea = Xrm.Page.getAttribute('data8_drinkstea').getValue();
+
+            if (drinksCoffee)
+                $('#coffee').css({ opacity: 1 });
+            else
+                $('#coffee').css({ opacity: 0.5 });
+
+            if (drinksTea)
+                $('#tea').css({ opacity: 1 });
+            else
+                $('#tea').css({ opacity: 0.5 });
+        };
+
+        Xrm.Page.getAttribute('data8_drinkscoffee').addOnChange(syncImages);
+        Xrm.Page.getAttribute('data8_drinkstea').addOnChange(syncImages);
+
+        syncImages();
+
+        $('#coffee').click(function () {
+            var attr = Xrm.Page.getAttribute('data8_drinkscoffee');
+            attr.setValue(!attr.getValue());
+            attr.fireOnChange();
+        });
+
+        $('#tea').click(function () {
+            var attr = Xrm.Page.getAttribute('data8_drinkstea');
+            attr.setValue(!attr.getValue());
+            attr.fireOnChange();
+        });
+    </script>
+</body>
+</html>
